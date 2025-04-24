@@ -24,7 +24,7 @@ if section == "Latest News":
     
     # Fetch real-time news (use a public API or scraping)
     def get_latest_news():
-        url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=YOUR_API_KEY"
+        url = "https://newsapi.org/v2/top-headlines?country=in&apiKey=AIzaSyAQ0R2le5uzRCjwvOXjr5DQ5AeZdeZNXL4"
         response = requests.get(url)
         articles = response.json()['articles']
         return articles
