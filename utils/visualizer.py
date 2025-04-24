@@ -1,25 +1,23 @@
+import streamlit as st
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 
-def generate_charts(news_article):
-    # Analyze the news article (could be sentiment analysis, keyword frequency, etc.)
-    # Here we'll just generate dummy charts
-    
-    # Sample data for charts
-    data = {
-        'sentiment': ['Positive', 'Negative', 'Neutral'],
-        'percentage': [45, 35, 20]
-    }
-    
-    df = pd.DataFrame(data)
-    
-    # Create pie chart
+def generate_charts(text):
+    # Dummy word frequency visualization
+    words = text.lower().split()
+    word_freq = pd.Series(words).value_counts().head(5)
+
+    st.subheader("📈 Top 5 Words in Article")
     fig, ax = plt.subplots()
-    ax.pie(df['percentage'], labels=df['sentiment'], autopct='%1.1f%%', startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures pie is drawn as a circle.
-    plt.title("Sentiment Distribution")
-    
-    # Show the chart
+    word_freq.plot(kind='barh', ax=ax, color='skyblue')
+    ax.invert_yaxis()
     st.pyplot(fig)
-    return fig
+
+    # Dummy sentiment chart
+    st.subheader("📊 Sentiment Distribution")
+    labels = ['Positive', 'Neutral', 'Negative']
+    sizes = [40, 30, 30]
+    fig2, ax2 = plt.subplots()
+    ax2.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+    ax2.axis('equal')
+    st.pyplot(fig2)
