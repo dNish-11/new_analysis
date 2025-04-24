@@ -142,43 +142,76 @@ Format your response with headings for each section."""
                 except Exception as e:
                     st.error(f"Error analyzing image: {e}")
 
-#------------Section 4: News prediction using ML--------------------
 
 # --------------- SECTION 4: PREDICTION (ML Model) ---------------- #
 elif selected == "Prediction":
     import joblib
     import string
     from sklearn.feature_extraction.text import TfidfVectorizer
+    import pandas as pd # type: ignore
+import re
+import streamlit as st # type: ignore
+from sklearn.feature_extraction.text import TfidfVectorizer # type: ignore
+from sklearn.linear_model import LogisticRegression # type: ignore
+from sklearn.model_selection import train_test_split # type: ignore
+from sklearn.tree import DecisionTreeClassifier # type: ignore
 
-    st.subheader("🔮 News Category Prediction")
-    
-    user_input = st.text_area("Enter a news headline or short article:", height=150)
+# Load data
+true_data = pd.read_csv('True.csv')
+fake_data = pd.read_csv('Fake.csv')
+true_data['label'] = 1
+fake_data['label'] = 0
+news = pd.concat([true_data, fake_data], axis=0)
+news = news.sample(frac=1).reset_index(drop=True)
+news = news.drop(['subject', 'date', 'title'], axis=1)
 
-    if st.button("Predict Category"):
-        if user_input.strip():
-            with st.spinner("Predicting news category..."):
-                try:
-                    # Sample preprocessing function
-                    def preprocess(text):
-                        text = text.lower()
-                        text = text.translate(str.maketrans('', '', string.punctuation))
-                        return text
+# Clean text
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'https?://\S+|www\.\S+', '', text)
+    text = re.sub(r'[^\w\s]', '', text)
+    text = re.sub(r'\d+', '', text)
+    text = re.sub(r'\n', ' ', text)
+    return text
 
-                    # Load model and vectorizer (assumed pre-trained and saved)
-                    model = joblib.load("model/news_category_model.pkl")
-                    vectorizer = joblib.load("model/tfidf_vectorizer.pkl")
+news['text'] = news['text'].apply(clean_text)
+x = news['text']
+y = news['label']
 
-                    # Preprocess and vectorize
-                    processed_text = preprocess(user_input)
-                    vectorized_input = vectorizer.transform([processed_text])
+# TF-IDF and model training
+vectorizer = TfidfVectorizer(max_features=5000)
+xv = vectorizer.fit_transform(x)
+x_train, x_test, y_train, y_test = train_test_split(xv, y, test_size=0.3)
 
-                    # Make prediction
-                    prediction = model.predict(vectorized_input)[0]
-                    st.success(f"🗂️ Predicted News Category: **{prediction}**")
+model = LogisticRegression()#1st model
+model.fit(x_train, y_train)
 
-                except Exception as e:
-                    st.error(f"Model prediction failed: {e}")
+model_dtc = DecisionTreeClassifier()#2nd model
+model_dtc.fit(x_train, y_train)
+
+# Streamlit App
+st.title("📰 Fake News Detector")
+
+user_input = st.text_area("Enter the news article text below:")
+
+if st.button("Predict"):
+    if user_input:
+        cleaned = clean_text(user_input)
+        vec_input = vectorizer.transform([cleaned])
+        prediction = model.predict(vec_input)[0]
+        prediction_1 = model_dtc.predict(vec_input)[0]
+
+        if prediction == 1 and prediction_1 == 1:
+            st.success("✅ It might be TRUE.-----BOTH")
+        elif prediction == 1 and prediction_1 == 0:
+            st.success("✅ It might be TRUE.----MAIN MODEL")
+        elif prediction == 0 and prediction_1 == 1:
+            st.success("✅ It might be TRUE.----DTC MODEL")
         else:
-            st.warning("Please enter some text for prediction.")
+            st.error("❌ It may be FAKE NEWS. Please verify it.")
+    else:
+        st.warning("Please enter some text to analyze.")
+
+
  
                     
