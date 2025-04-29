@@ -15,7 +15,7 @@ from sklearn.model_selection import train_test_split
 
 
 # --------------- CONFIG ---------------- #
-st.set_page_config(page_title="PrimeNews - Connect", layout="centered")
+st.set_page_config(page_title="PrimeNews ", layout="centered")
 
 import base64
 
@@ -38,36 +38,6 @@ def set_bg_from_local(image_file):
 
 # Call the function with your image path
 set_bg_from_local("bg_news_img.jpg")
-
-#---------------------------------------------------------------
-st.markdown("""
-    <style>
-    .floating-button {
-        position: fixed;
-        width: 60px;
-        height: 60px;
-        bottom: 20px;
-        right: 20px;
-        background-color: #1a73e8;
-        color: white;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 30px;
-        box-shadow: 2px 2px 3px #999;
-        z-index: 100;
-        cursor: pointer;
-        line-height: 60px;
-        transition: background-color 0.3s ease-in-out;
-    }
-
-    .floating-button:hover {
-        background-color: #0b57d0;
-    }
-    </style>
-
-    <a href="?D:\minipro\sem-VIth pro\connect.py" class="floating-button" title="Connect">💬</a>
-""", unsafe_allow_html=True)
-
 
 #----------------------
 st.markdown("""
@@ -128,7 +98,7 @@ st.markdown("""
     .nav-link:hover {
         color: #1a73e8 !important;
         background-color: #e3ecf8 !important;
-        border-radius: 8px;
+        border-radius: 40px;
     }
 
     .nav-link.active {
@@ -141,14 +111,17 @@ st.markdown("""
     /* Button hover effect */
     .stButton > button {
         border-radius: 10px;
-        background-color: #1a73e8;
+        background-color: #4A90E2;
         color: white;
         transition: background-color 0.3s ease-in-out;
     }
 
     .stButton > button:hover {
-        background-color: #155ab6;
-        color: #fff;
+        background-color: orange;
+        color: white;
+        border-radius: 55px;
+        transition: background-color 0.3s ease-in-out;
+        transition: border-radius 0.7s ease-in-out;    
     }
 
     </style>
@@ -212,11 +185,11 @@ st.markdown("""
         font-weight: bold;
         color: #4A90E2;
     }
+    
     </style>
 """, unsafe_allow_html=True)
 
 st.markdown('<div class="title">🪼PrimeNews</div>', unsafe_allow_html=True)
-
 
 # --------------- NAVIGATION ---------------- #
 selected = option_menu(
@@ -226,23 +199,6 @@ selected = option_menu(
     orientation="horizontal",
     default_index=0,
 )
-
-#-------------------------------------------------------
-
-st.markdown("""
-    <style>
-    .css-1d391kg {  /* Main option menu container */
-        max-width: 1000px;  /* Increase width */
-        margin: auto;       /* Center it */
-        justify-content: space-around;
-    }
-
-    .nav-link {
-        font-size: 18px;
-        padding: 10px 20px;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
 
 #----------------------------------------------------------
@@ -416,6 +372,8 @@ st.markdown("""
 #------------------------------------------------------------------------------
 
 st.markdown('<div class="footer">© 2025 PrimeNews • Built by PrimeDev with ❤️ using Streamlit</div>', unsafe_allow_html=True)
+
+
 
 
 
