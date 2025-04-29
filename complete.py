@@ -13,14 +13,76 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 
+
 # --------------- CONFIG ---------------- #
-st.set_page_config(page_title="PrimeNews", layout="centered")
-#----------------------
+st.set_page_config(page_title="PrimeNews - Connect", layout="centered")
+
+import base64
+
+def set_bg_from_local(image_file):
+    with open(image_file, "rb") as img:
+        encoded = base64.b64encode(img.read()).decode()
+    st.markdown(
+        f"""
+        <style>
+        .stApp {{
+            background-image: url("data:image/jpg;base64,{encoded}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+# Call the function with your image path
+set_bg_from_local("bg_news_img.jpg")
+
+#---------------------------------------------------------------
 st.markdown("""
     <style>
+    .floating-button {
+        position: fixed;
+        width: 60px;
+        height: 60px;
+        bottom: 20px;
+        right: 20px;
+        background-color: #1a73e8;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 30px;
+        box-shadow: 2px 2px 3px #999;
+        z-index: 100;
+        cursor: pointer;
+        line-height: 60px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .floating-button:hover {
+        background-color: #0b57d0;
+    }
+    </style>
+
+    <a href="?D:\minipro\sem-VIth pro\connect.py" class="floating-button" title="Connect">💬</a>
+""", unsafe_allow_html=True)
+
+
+#----------------------
+st.markdown("""
+    <style>ok
+    body{
+       background-image: url('bg_news_img.jpg');
+       background-size: cover;        /* Makes the image cover the whole area */
+       background-repeat: no-repeat;  /* Prevents the image from repeating */
+       background-position: center;   /* Centers the image */
+    }
+     
+    
     /* Background Gradient */
     body {
-        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%) !important;
+       background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%) !important;
     }
 
     /* Container Styling */
@@ -74,7 +136,8 @@ st.markdown("""
         color: #0b57d0 !important;
         border-radius: 8px;
     }
-
+            
+            
     /* Button hover effect */
     .stButton > button {
         border-radius: 10px;
@@ -93,7 +156,7 @@ st.markdown("""
 
 # --------------- SIDE MENU GUIDE ---------------- #
 with st.sidebar:
-    st.title("📌 PrimeNews Help")
+    st.title("📌 PrimeNews corner")
     st.markdown("""
     --------------------------------------------------------
     **1. Latest News**
@@ -163,6 +226,32 @@ selected = option_menu(
     orientation="horizontal",
     default_index=0,
 )
+
+#-------------------------------------------------------
+
+st.markdown("""
+    <style>
+    .css-1d391kg {  /* Main option menu container */
+        max-width: 1000px;  /* Increase width */
+        margin: auto;       /* Center it */
+        justify-content: space-around;
+    }
+
+    .nav-link {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+#----------------------------------------------------------
+
+# Detect if Connect is triggered from FAB
+query_params = st.query_params
+if query_params.get("Connect") is not None:
+    selected = "Connect"
+
 
 # --------------- SECTION 1: LATEST NEWS ---------------- #
 if selected == "Latest":
@@ -308,3 +397,27 @@ elif selected == "Prediction":
                 st.error("❌ It might be FAKE. Please verify it.")
         else:
             st.warning("Please enter some text to analyze.")
+
+#-----------------------------Footer------------------------------------------
+st.markdown("""
+
+    <style>
+            
+    .footer {
+        text-align: center;
+        font-size: 14px;
+        color: #888;
+        margin-top: 2em;
+    }        
+    </style>
+
+""", unsafe_allow_html=True)
+ 
+#------------------------------------------------------------------------------
+
+st.markdown('<div class="footer">© 2025 PrimeNews • Built by PrimeDev with ❤️ using Streamlit</div>', unsafe_allow_html=True)
+
+
+
+
+
