@@ -158,8 +158,8 @@ with st.sidebar:
 #---------------------
 
 # Insert your API keys
-NEWS_API_KEY = "7d4b56088e5a46868d87c194920750c4"
-GEMINI_API_KEY = "AIzaSyAl4rEdDYGSo0DL6Htl2sHmwP3tazBghmc"
+NEWS_API_KEY = st.secrets["NEWS_API_KEY"]
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 
 # Gemini AI setup
 genai.configure(api_key=GEMINI_API_KEY)
